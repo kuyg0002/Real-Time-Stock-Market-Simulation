@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Stock Market</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <h1>Real-Time Stock Market Updates</h1>
+    <div id="stockUpdates">
+        <!-- Stock updates will be shown here -->
+    </div>
+
+    <script>
+        // Connect to the Socket.io server
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        // Listen for 'stock_update' event
+        socket.on('stock_update', function(data) {
+            const updateDiv = document.getElementById('stockUpdates');
+            const updateMessage = `
+                <p>
+                    <strong>${data.ticker}</strong>: Updated to $${data.price}
+                </p>
+            `;
+            updateDiv.innerHTML += updateMessage;
+        });
+    </script>
+</body>
+</html>
